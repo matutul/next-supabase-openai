@@ -3,9 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./DarkMode";
+import { getUser } from "@/auth/server";
+import { logOutAction } from "@/actions/users";
+import LogOutButton from "./LogOutButton";
 
-const Header = () => {
-  const user = null;
+const Header = async () => {
+  const user = await getUser();
+  console.log(user?.id)
   return (
     <header
       className="relative h-16 w-full flex items-center justify-between bg-popover px-3 sm:px-8"
@@ -24,13 +28,13 @@ const Header = () => {
           NEXT <span>SUPA</span>
         </h1>
       </Link>
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
         {user ? (
-          "Logout"
+          <LogOutButton />
         ) : (
           <>
             <Button asChild>
-              <Link href={"/signup"} className="hidden sm:block">Sign up</Link>
+              <Link href={"/sign-up"} className="hidden sm:block">Sign up</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href={"/login"}>Login</Link>
